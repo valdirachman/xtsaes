@@ -24,7 +24,6 @@ public class XTSAES {
     while (fis.read(arr) > 0){
       byte[] ciphertext = encryptAES(arr, keyBinary);
       System.out.println(DatatypeConverter.printHexBinary(ciphertext));
-      
       arr = new byte[16];
     }
 
