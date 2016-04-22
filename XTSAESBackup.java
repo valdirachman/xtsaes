@@ -5,7 +5,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileInputStream;
 
-public class XTSAES {
+public class XTSAESBackup {
 
   public static void main(String[] args) throws Exception {
     // asumsi plaintext adalah ascii character
@@ -35,8 +35,6 @@ public class XTSAES {
       fis.read(arrPlaintextByte[i]);
     }
 
-    System.out.println("arr plaintextbyte row = " +  arrPlaintextByteSize);
-
     byte[] tweak = Util.hex2byte("12345678901234567890123456789012");
 
     //2 dim array
@@ -57,32 +55,32 @@ public class XTSAES {
       //String s = new String(arrResultByte[i]);
       for (int j = 0; j < 16; j++){
           byte b1 = arrPlaintextByte[i][j];
-          System.out.println(b1);
+          System.out.print(b1);
       }
     }
 
 
-    System.out.println();
+    System.out.println("");
     System.out.println("--  DECRYPT --");
 
     byte[][] arrResultByte = XTSAESDec(key1, key2, arrCiphertextByte, lastByteLength, tweak);
     for (int i = 0; i < arrResultByte.length; i++){
-      String s = new String(arrResultByte[i]);
-      System.out.println(s);
-      // for (int j = 0; j < 16; j++){
-      //     byte b1 = arrResultByte[i][j];
-      //     //String x = new String(b1);
-      //     System.out.println(b1);
-      // }
+      //String s = new String(arrResultByte[i]);
+      for (int j = 0; j < 16; j++){
+          byte b1 = arrResultByte[i][j];
+          System.out.print(b1);
+      }
     }
-    System.out.println();
+    // while ((byteCount = fis.read(arr)[i]) > 0){
+    //   System.out.println(byteCount);
+    //   byte[] ciphertext = encryptAES(arr, key1);
+    //   System.out.println(DatatypeConverter.printHexBinary(ciphertext));
+    //   arr = new byte[16];
+    // }
 
   }
 
-
-
   /**
-
   * XTS-AES-blockEnc procedure, encryption of a single 128-bit block
   *
   */
@@ -99,16 +97,9 @@ public class XTSAES {
 
     int m = arrPlaintextByte.length - 1; // get index of last element
     byte[][] arrCiphertextByte = new byte[arrPlaintextByte.length][16];
-
-    System.out.println("Print cipher hasil enkrip dengan m-2 = " + (m-2));
-
     for (int q = 0; q <= (m-2); q++){
       arrCiphertextByte[q] = XTSAESBlockEnc(key1, key2, arrPlaintextByte[q], i, q);
-      String x = new String(arrCiphertextByte[q]);
-      System.out.println(x);
     }
-
-    System.out.println("SELESAI Print cipher hasil enkrip");
 
     // b = bit-size of P[m] --> udah oke, tinggal diubah dari byte ke bit?
     int b = lastByteLength * 8;
@@ -253,18 +244,18 @@ public class XTSAES {
   public static byte[] multiplicationByAlpha(int j, byte[] a) throws Exception {
 
 
-    //System.out.println("masuk");
-    byte[][] arr = new byte[j+2][16];
+    System.out.println("masuk");
+    byte[][] arr = new byte[j+1][16];
     arr[0] = a;
 
-    for(int i = 0; i <= j; i++){
+    for(int i = 1; i <= j; i++){
       // byte[] temp = new byte[16];
       // System.arraycopy(a, 0, temp, 0, a.length );
 
-      arr[i+1][0] = (byte) ((2*(arr[i][0] % 128)) ^ (135*(arr[i][15] / 128)));
+      arr[i][0] = (byte) ((2*(arr[i-1][0] % 128)) ^ (135*(arr[i-1][15] / 128)));
 
       for(int k = 1; k <= 15; k++){
-        arr[i+1][k] = (byte) ((2*(arr[i][k] % 128)) ^ (arr[i][k-1] / 128));
+        arr[i][k] = (byte) ((2*(arr[i-1][k] % 128)) ^ (arr[i-1][k-1] / 128));
       }
     }
     return arr[j];
@@ -288,8 +279,6 @@ public class XTSAES {
     Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
     cipher.init(Cipher.ENCRYPT_MODE, key);
     byte[] result = cipher.doFinal(plaintext);
-    //String x = new String(result);
-    //System.out.println(x);
     return result;
   }
 
@@ -303,8 +292,6 @@ public class XTSAES {
     Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
     cipher.init(Cipher.DECRYPT_MODE, key);
     byte[] plaintext = cipher.doFinal(ciphertext);
-    //String x = new String(plaintext);
-    //System.out.println(x);
     return plaintext;
   }
 }
