@@ -34,7 +34,7 @@ public class XTSAES {
       fis.read(arrPlaintextByte[i]);
     }
 
-    byte[] tweak = new byte[16];
+    byte[] tweak = Util.hex2byte("12345678901234567890123456789012");
     byte[][] arrCiphertextByte = XTSAESEnc(key1, key2, arrPlaintextByte, lastByteLength, tweak);
 
     // for (int i = 0; i < arrPlaintextByteSize; i++){
@@ -99,37 +99,37 @@ public class XTSAES {
     //   C[m-1] = XTSAESBlockEnc(key1, key2,P[m-1], i, m-1)
     //   C[m] = null
     // } else{
-    //   CC = XTSAESBlockEnc(key1, key2, P[m-1], i, m-1)
-    //   C[m] = first b bits of CC
-    //   CP = last (128-b) bits pf CC
-    //   PP = P[m] concate CP
-    //   C[m-1] = XTSAESBlockEnc(key1, key2, PP, i, m)
+    //   cc = XTSAESBlockEnc(key1, key2, P[m-1], i, m-1)
+    //   C[m] = first b bits of cc
+    //   cp = last (128-b) bits pf cc
+    //   pp = P[m] concate cp
+    //   C[m-1] = XTSAESBlockEnc(key1, key2, pp, i, m)
     // }
 
     if (b == 0){
       arrCiphertextByte[m-1] = XTSAESBlockEnc(key1, key2, arrPlaintextByte[m-1], i, (m-1));
       arrCiphertextByte[m] = null;
     } else{
-      byte[] CC = XTSAESBlockEnc(key1, key2, arrPlaintextByte[m-1], i, (m-1));
+      byte[] cc = XTSAESBlockEnc(key1, key2, arrPlaintextByte[m-1], i, (m-1));
 
       for (int count = 0; count < lastByteLength; count++){
-        arrCiphertextByte[m][count] = CC[count];
+        arrCiphertextByte[m][count] = cc[count];
       }
 
-      byte[] CP = new byte[16];
-      byte[] PP = new byte[16];
+      byte[] cp = new byte[16];
+      byte[] pp = new byte[16];
       for (int count = lastByteLength; count < 16; count++){
-          CP[count] = CC[count];
-          PP[count] = CC[count];
+          cp[count] = cc[count];
+          pp[count] = cc[count];
       }
 
-      // byte[] PP = arrCiphertextByte[m] + CP
-      // PP already has CP here, tinggal masukkin arrPlaintextByte[m]
+      // byte[] pp = arrCiphertextByte[m] + cp
+      // pp already has cp here, tinggal masukkin arrPlaintextByte[m]
       for (int count = 0; count < lastByteLength; count++){
-        PP[count] = arrPlaintextByte[m][count];
+        pp[count] = arrPlaintextByte[m][count];
       }
 
-      arrCiphertextByte[m-1] = XTSAESBlockEnc(key1, key2, PP, i, m);
+      arrCiphertextByte[m-1] = XTSAESBlockEnc(key1, key2, pp, i, m);
 
     }
 
@@ -154,41 +154,30 @@ public class XTSAES {
     // b = bit-size of P[m] --> udah oke, tinggal diubah dari byte ke bit?
     int b = lastByteLength * 8;
 
-    // if b == 0 {
-    //   C[m-1] = XTSAESBlockEnc(key1, key2,P[m-1], i, m-1)
-    //   C[m] = null
-    // } else{
-    //   CC = XTSAESBlockEnc(key1, key2, P[m-1], i, m-1)
-    //   C[m] = first b bits of CC
-    //   CP = last (128-b) bits pf CC
-    //   PP = P[m] concate CP
-    //   C[m-1] = XTSAESBlockEnc(key1, key2, PP, i, m)
-    // }
-
     if (b == 0){
       arrPlaintextByte[m-1] = XTSAESBlockDec(key1, key2, arrCiphertextByte[m-1], i, (m-1));
       arrPlaintextByte[m] = null;
     } else{
-      byte[] PP = XTSAESBlockDec(key1, key2, arrCiphertextByte[m-1], i, m);
+      byte[] pp = XTSAESBlockDec(key1, key2, arrCiphertextByte[m-1], i, m);
 
       for (int count = 0; count < lastByteLength; count++){
-        arrPlaintextByte[m][count] = PP[count];
+        arrPlaintextByte[m][count] = pp[count];
       }
 
-      byte[] CP = new byte[16];
-      byte[] CC = new byte[16];
+      byte[] cp = new byte[16];
+      byte[] cc = new byte[16];
       for (int count = lastByteLength; count < 16; count++){
-          CP[count] = PP[count];
-          CC[count] = PP[count];
+          cp[count] = pp[count];
+          cc[count] = pp[count];
       }
 
-      // byte[] PP = arrCiphertextByte[m] + CP
-      // PP already has CP here, tinggal masukkin arrPlaintextByte[m]
+      // byte[] pp = arrCiphertextByte[m] + cp
+      // pp already has cp here, tinggal masukkin arrPlaintextByte[m]
       for (int count = 0; count < lastByteLength; count++){
-        CC[count] = arrCiphertextByte[m][count];
+        cc[count] = arrCiphertextByte[m][count];
       }
 
-      arrPlaintextByte[m-1] = XTSAESBlockDec(key1, key2, CC, i, (m-1));
+      arrPlaintextByte[m-1] = XTSAESBlockDec(key1, key2, cc, i, (m-1));
 
     }
 
@@ -198,57 +187,66 @@ public class XTSAES {
   public static byte[] XTSAESBlockEnc(byte[] key1, byte[] key2, byte[] plaintext, byte[] i, int j) throws Exception {
     // T = encryptAES(key2, i) (x) alfa^j  --> cari tahu gimana cara modular multiplication
     // byte[] alfa = a^j;
-    byte[] T = multiplicationByAlpha(j, encryptAES(key2, i));
-    // PP = P xor T --> cari tahu gimana caranya xor di java?
-    // byte[] PP = plaintext ^ T;
-    byte[] PP = new byte[16];
-    for (int a = 0; a < PP.length; a++) {
-        PP[a] = (byte) (plaintext[a] ^ T[a]);
+    byte[] t = multiplicationByAlpha(j, encryptAES(key2, i));
+    // pp = P xor T --> cari tahu gimana caranya xor di java?
+    // byte[] pp = plaintext ^ T;
+    byte[] pp = new byte[16];
+    for (int a = 0; a < pp.length; a++) {
+        pp[a] = (byte) (plaintext[a] ^ t[a]);
     }
-    // CC = encryptAES(key1, PP)
-    byte[] CC = encryptAES(key1, PP);
-    // C = CC xor T
-    //byte[] C = CC ^ T;
-    byte[] C = new byte[16];
-    for (int a = 0; a < C.length; a++) {
-        C[a] = (byte) (CC[a] ^ T[a]);
+    // cc = encryptAES(key1, pp)
+    byte[] cc = encryptAES(key1, pp);
+    // C = cc xor T
+    //byte[] C = cc ^ T;
+    byte[] c = new byte[16];
+    for (int a = 0; a < c.length; a++) {
+        c[a] = (byte) (cc[a] ^ t[a]);
     }
     // return C;
-    return C;
+    return c;
   }
 
   public static byte[] XTSAESBlockDec(byte[] key1, byte[] key2, byte[] ciphertext, byte[] i, int j) throws Exception {
     // T = encryptAES(key2, i) (x) alfa^j  --> cari tahu gimana cara modular multiplication
     // byte[] alfa = a^j;
-    byte[] T = multiplicationByAlpha(j, encryptAES(key2, i));
+    byte[] t = multiplicationByAlpha(j, encryptAES(key2, i));
 
-    // CC = C xor T
-    byte[] CC = new byte[16];
-    for (int a = 0; a < CC.length; a++) {
-        CC[a] = (byte) (ciphertext[a] ^ T[a]);
+    // cc = C xor T
+    byte[] cc = new byte[16];
+    for (int a = 0; a < cc.length; a++) {
+        cc[a] = (byte) (ciphertext[a] ^ t[a]);
     }
 
-    // PP = decryptAES(key1, CC)
-    byte[] PP = decryptAES(key1, CC);
-    // P = PP xor T
-    byte[] P = new byte[16];
-    for (int a = 0; a < P.length; a++) {
-        P[a] = (byte) (PP[a] ^ T[a]);
+    // pp = decryptAES(key1, cc)
+    byte[] pp = decryptAES(key1, cc);
+    // P = pp xor T
+    byte[] p = new byte[16];
+    for (int a = 0; a < p.length; a++) {
+        p[a] = (byte) (pp[a] ^ t[a]);
     }
 
     // return P
-    return P;
+    return p;
   }
 
   public static byte[] multiplicationByAlpha(int j, byte[] a) throws Exception {
 
-    for(int i = 1; i < j; i++){
-      a[0] = (byte) ((2*(a[0] % 128)) ^ (135*(a[15] / 128)));
+
+    System.out.println("masuk");
+    byte[][] arr = new byte[j+1][16];
+    arr[0] = a;
+
+    for(int i = 1; i <= j; i++){
+      // byte[] temp = new byte[16];
+      // System.arraycopy(a, 0, temp, 0, a.length );
+
+      arr[i][0] = (byte) ((2*(arr[i-1][0] % 128)) ^ (135*(arr[i-1][15] / 128)));
+
       for(int k = 1; k <= 15; k++){
-        a[k] = (byte) ((2*(a[k] % 128)) ^ (a[k-1] / 128));
+        arr[i][k] = (byte) ((2*(arr[i-1][k] % 128)) ^ (arr[i-1][k-1] / 128));
       }
     }
-    return a;
+    return arr[j];
   }
 
   public static byte[] hexToBinary(String stringHex) throws Exception {
