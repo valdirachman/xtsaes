@@ -45,7 +45,11 @@ public class XTSAES {
       }
     }
 
-    byte[][] arrResultByte = XTSAESDec(key1, key2, arrPlaintextByte, lastByteLength, tweak);
+    byte[][] arrResultByte = XTSAESDec(key1, key2, arrCiphertextByte, lastByteLength, tweak);
+    for (int i = 0; i < arrResultByte.length; i++){
+      String s = new String(arrResultByte[i]);
+      System.out.print(s);
+    }
     // while ((byteCount = fis.read(arr)[i]) > 0){
     //   System.out.println(byteCount);
     //   byte[] ciphertext = encryptAES(arr, key1);
@@ -118,6 +122,65 @@ public class XTSAES {
     return arrCiphertextByte;
   }
 
+  public static byte[][] XTSAESDec(byte[] key1, byte[] key2, byte[][] arrCiphertextByte, int lastByteLength, byte[] i) throws Exception {
+    // P --> P[0], P[1],.., P[m-1], P[m] --> udh oke
+    // key1 = .. --> udh oke
+    // key2 = .. --> udh oke
+
+    // for q=0:m-2 do {
+    //   C[q] = XTSAESBlockEnc(key1, key2, plaintext, i, q);
+    // }
+
+    int m = arrCiphertextByte.length - 1; // get index of last element
+    byte[][] arrPlaintextByte = new byte[arrCiphertextByte.length][16];
+    for (int q = 0; q <= (m-2); q++){
+      arrPlaintextByte[q] = XTSAESBlockDec(key1, key2, arrCiphertextByte[q], i, q);
+    }
+
+    // b = bit-size of P[m] --> udah oke, tinggal diubah dari byte ke bit?
+    int b = lastByteLength * 8;
+
+    // if b == 0 {
+    //   C[m-1] = XTSAESBlockEnc(key1, key2,P[m-1], i, m-1)
+    //   C[m] = null
+    // } else{
+    //   CC = XTSAESBlockEnc(key1, key2, P[m-1], i, m-1)
+    //   C[m] = first b bits of CC
+    //   CP = last (128-b) bits pf CC
+    //   PP = P[m] concate CP
+    //   C[m-1] = XTSAESBlockEnc(key1, key2, PP, i, m)
+    // }
+
+    if (b == 0){
+      arrPlaintextByte[m-1] = XTSAESBlockDec(key1, key2, arrCiphertextByte[m-1], i, (m-1));
+      arrPlaintextByte[m] = null;
+    } else{
+      byte[] PP = XTSAESBlockDec(key1, key2, arrCiphertextByte[m-1], i, m);
+
+      for (int count = 0; count < lastByteLength; count++){
+        arrPlaintextByte[m][count] = PP[count];
+      }
+
+      byte[] CP = new byte[16];
+      byte[] CC = new byte[16];
+      for (int count = lastByteLength; count < 16; count++){
+          CP[count] = PP[count];
+          CC[count] = PP[count];
+      }
+
+      // byte[] PP = arrCiphertextByte[m] + CP
+      // PP already has CP here, tinggal masukkin arrPlaintextByte[m]
+      for (int count = 0; count < lastByteLength; count++){
+        CC[count] = arrCiphertextByte[m][count];
+      }
+
+      arrPlaintextByte[m-1] = XTSAESBlockDec(key1, key2, CC, i, (m-1));
+
+    }
+
+    return arrPlaintextByte;
+  }
+
   public static byte[] XTSAESBlockEnc(byte[] key1, byte[] key2, byte[] plaintext, byte[] i, int j) throws Exception {
     // T = encryptAES(key2, i) (x) alfa^j  --> cari tahu gimana cara modular multiplication
     // byte[] alfa = a^j;
@@ -138,6 +201,29 @@ public class XTSAES {
     }
     // return C;
     return C;
+  }
+
+  public static byte[] XTSAESBlockDec(byte[] key1, byte[] key2, byte[] ciphertext, byte[] i, int j) throws Exception {
+    // T = encryptAES(key2, i) (x) alfa^j  --> cari tahu gimana cara modular multiplication
+    // byte[] alfa = a^j;
+    byte[] T = multiplicationByAlpha(j, encryptAES(key2, i));
+
+    // CC = C xor T
+    byte[] CC = new byte[16];
+    for (int a = 0; a < CC.length; a++) {
+        CC[a] = (byte) (ciphertext[a] ^ T[a]);
+    }
+
+    // PP = decryptAES(key1, CC)
+    byte[] PP = decryptAES(key1, CC);
+    // P = PP xor T
+    byte[] P = new byte[16];
+    for (int a = 0; a < P.length; a++) {
+        P[a] = (byte) (PP[a] ^ T[a]);
+    }
+
+    // return P
+    return P;
   }
 
   public static byte[] multiplicationByAlpha(int j, byte[] a) throws Exception {
