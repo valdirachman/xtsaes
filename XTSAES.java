@@ -37,18 +37,32 @@ public class XTSAES {
     byte[] tweak = new byte[16];
     byte[][] arrCiphertextByte = XTSAESEnc(key1, key2, arrPlaintextByte, lastByteLength, tweak);
 
-    for (int i = 0; i < arrPlaintextByteSize; i++){
+    // for (int i = 0; i < arrPlaintextByteSize; i++){
+    //   for (int j = 0; j < 16; j++){
+    //       byte b1 = arrCiphertextByte[i][j];
+    //       String s1 = String.format("%8s", Integer.toBinaryString(b1 & 0xFF)).replace(' ', '0');
+    //       System.out.print(s1);
+    //   }
+    // }
+
+    for (int i = 0; i < arrPlaintextByte.length; i++){
+      //String s = new String(arrResultByte[i]);
       for (int j = 0; j < 16; j++){
-          byte b1 = arrCiphertextByte[i][j];
-          String s1 = String.format("%8s", Integer.toBinaryString(b1 & 0xFF)).replace(' ', '0');
-          System.out.print(s1);
+          byte b1 = arrPlaintextByte[i][j];
+          System.out.print(b1);
       }
     }
 
+    System.out.println("");
+    System.out.println("-----");
+
     byte[][] arrResultByte = XTSAESDec(key1, key2, arrCiphertextByte, lastByteLength, tweak);
     for (int i = 0; i < arrResultByte.length; i++){
-      String s = new String(arrResultByte[i]);
-      System.out.print(s);
+      //String s = new String(arrResultByte[i]);
+      for (int j = 0; j < 16; j++){
+          byte b1 = arrResultByte[i][j];
+          System.out.print(b1);
+      }
     }
     // while ((byteCount = fis.read(arr)[i]) > 0){
     //   System.out.println(byteCount);
