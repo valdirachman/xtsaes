@@ -35,7 +35,11 @@ public class XTSAESBackup {
       fis.read(arrPlaintextByte[i]);
     }
 
-    byte[] tweak = Util.hex2byte("12345678901234567890123456789012");
+    //byte[] tweak = Util.hex2byte("12345678901234567890123456789012");
+    byte[] tweak = {
+      1,  2,  3,  4,  5,  6,  7,  8,
+      9, 10, 11, 12, 13, 14, 15, 16,
+    };
 
     //2 dim array
     byte[][] arrCiphertextByte = XTSAESEnc(key1, key2, arrPlaintextByte, lastByteLength, tweak);
@@ -51,11 +55,11 @@ public class XTSAESBackup {
     System.out.println("--  ENCRYPT --");
 
 
-    for (int i = 0; i < arrPlaintextByte.length; i++){
+    for (int i = 0; i < arrCiphertextByte.length; i++){
       //String s = new String(arrResultByte[i]);
       for (int j = 0; j < 16; j++){
-          byte b1 = arrPlaintextByte[i][j];
-          System.out.print(b1);
+          byte b1 = arrCiphertextByte[i][j];
+          System.out.print(b1+" ");
       }
     }
 
