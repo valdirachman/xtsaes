@@ -25,6 +25,7 @@ public class XTSAES {
       9, 10, 11, 12, 13, 14, 15, 16,
     };
 
+  //complete Input
   public XTSAES(File inputFile, File keyFile, File tweakFile, File outputFile){
     this.inputFile = inputFile;
     this.keyFile = keyFile;
@@ -35,6 +36,7 @@ public class XTSAES {
     setTweak();
   }
 
+  //for Input without tweak, use default tweak
   public XTSAES(File inputFile, File keyFile, File outputFile){
     this.inputFile = inputFile;
     this.keyFile = keyFile;

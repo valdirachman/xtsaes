@@ -107,11 +107,11 @@ public class Tugas1Kripto extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Anang Ferdi Kusuma - 1006665952");
+        jLabel1.setText("Tugas 1 Kriptografi");
 
-        jLabel2.setText("Arief Yudha Satria - 1006665984");
+        jLabel2.setText("Febriyola Anastasia 1306409500 - Valdi Rachman 130638xxxx");
 
-        jLabel3.setText("Evan Ariansyah - 1006671381");
+        jLabel3.setText("Bila tweak kosong, maka akan digunakan tweak default");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
