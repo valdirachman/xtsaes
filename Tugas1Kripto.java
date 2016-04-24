@@ -3,14 +3,6 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-/**
- * Class Tugas1Kripto
- * adalah kelas utama yang mengandung GUI.
- * @author Anang Ferdi Kusuma (1006665952)
- * @author Arief Yudha Satria (1006665984)
- * @author Evan Ariansyah H (1006671381)
- */
-
 public class Tugas1Kripto extends javax.swing.JFrame {
 
     private static File input = null;
@@ -41,18 +33,14 @@ public class Tugas1Kripto extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jTextField3 = new javax.swing.JTextField();
         jTextFieldTweak = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-
-        buttonGroup1.add(jRadioButton1);
-        buttonGroup1.add(jRadioButton2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("XTS AES");
@@ -83,15 +71,19 @@ public class Tugas1Kripto extends javax.swing.JFrame {
             }
         });
 
-        jRadioButton1.setText("Encrypt");
-        jRadioButton1.setSelected(true);
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+        jButton1.setText("Encrypt");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonMouseClicked(evt, ENCRYPT);
             }
         });
 
-        jRadioButton2.setText("Decrypt");
+        jButton2.setText("Decrypt");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonMouseClicked(evt, DECRYPT);
+            }
+        });
 
         jTextField3.setText("Output");
         jTextField3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -100,16 +92,11 @@ public class Tugas1Kripto extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Execute");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
+
 
         jLabel1.setText("Tugas 1 Kriptografi");
 
-        jLabel2.setText("Febriyola Anastasia 1306409500 - Valdi Rachman 130638xxxx");
+        jLabel2.setText("Febriyola Anastasia 1306409500 - Valdi Rachman 1306381862");
 
         jLabel3.setText("Bila tweak kosong, maka akan digunakan tweak default");
 
@@ -155,11 +142,8 @@ public class Tugas1Kripto extends javax.swing.JFrame {
                         .addGap(157, 157, 157)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton1)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jRadioButton2)
-                                .addComponent(jRadioButton1)))))
-                .addContainerGap(96, Short.MAX_VALUE))
-        );
+                            .addComponent(jButton2))))));
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -172,20 +156,15 @@ public class Tugas1Kripto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(jRadioButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton2)
-                .addGap(40, 40, 40)
                 .addComponent(jButton1)
-                .addGap(58, 58, 58))
-        );
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addGap(40, 40, 40)
+        ));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -225,13 +204,8 @@ public class Tugas1Kripto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextField3MouseClicked
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        int mode = ENCRYPT;
-        if (jRadioButton1.isSelected()) {
-            mode = ENCRYPT;
-        } else {
-            mode = DECRYPT;
-        }
+    private void jButtonMouseClicked(java.awt.event.MouseEvent evt, int mode) {//GEN-FIRST:event_jButton1MouseClicked
+
         if (input != null && key != null && output != null) {
           if(tweak!=null){
             xts = new XTSAES(input, key, tweak,output);
@@ -247,13 +221,13 @@ public class Tugas1Kripto extends javax.swing.JFrame {
 
             }
         } else if (input == null) {
-            JOptionPane.showMessageDialog(this, "Harus pilih input!", "Error!",
+            JOptionPane.showMessageDialog(this, "Masukkan file input", "Error",
                     JOptionPane.ERROR_MESSAGE);
         } else if (key == null) {
-            JOptionPane.showMessageDialog(this, "Harus pilih key!", "Error!",
+            JOptionPane.showMessageDialog(this, "Masukkan file key", "Error",
                     JOptionPane.ERROR_MESSAGE);
         } else if (output == null) {
-            JOptionPane.showMessageDialog(this, "Harus pilih output!", "Error!",
+            JOptionPane.showMessageDialog(this, "Masukkan file output", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1MouseClicked
@@ -297,13 +271,12 @@ public class Tugas1Kripto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private static javax.swing.JButton jButton1;
+    private static javax.swing.JButton jButton2;
     private static javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private static javax.swing.JRadioButton jRadioButton1;
-    private static javax.swing.JRadioButton jRadioButton2;
     private static javax.swing.JTextField jTextField1;
     private static javax.swing.JTextField jTextField2;
     private static javax.swing.JTextField jTextField3;
