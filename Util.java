@@ -1,5 +1,7 @@
 import java.util.List;
-
+/**
+* Utility class untuk membantu XTS AES
+*/
 class Util {
 
   public static byte[] multiplicationGF(byte[] bytes){

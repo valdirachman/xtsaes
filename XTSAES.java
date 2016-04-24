@@ -12,9 +12,13 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+/*
+* Class XTSAES untuk melakukan enrkipsi dan dekripsi AES dalam mode XTS
+*/
 
 public class XTSAES {
 
+  //init
   private final int BLOCK_SIZE = 16;
   private File inputFile, keyFile, tweakFile, outputFile;
   private int lengthInput;
