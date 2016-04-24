@@ -19,7 +19,7 @@ class Util {
           }
       }
       if(carry){
-          multi[bytes.length - 1] = (byte) (multi[bytes.length - 1] ^ 135);
+          multi[bytes.length-1] = (byte) (multi[bytes.length-1] ^ 135);
       }
       return multi;
   }
@@ -43,12 +43,5 @@ class Util {
             }
         }
         return merged;
-    }
-
-  public static void printArrBytes(byte[] byteArr){
-        for (byte x : byteArr){
-          System.out.print(x + " ");
-        }
-        System.out.println();
     }
 }

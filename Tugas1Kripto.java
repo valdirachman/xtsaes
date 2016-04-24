@@ -13,6 +13,19 @@ public class Tugas1Kripto extends javax.swing.JFrame {
     public static final int ENCRYPT = 0;
     public static final int DECRYPT = 1;
 
+    private javax.swing.ButtonGroup buttonGroup1;
+    private static javax.swing.JButton jButton1;
+    private static javax.swing.JButton jButton2;
+    private static javax.swing.JFileChooser jFileChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private static javax.swing.JTextField jTextFieldInput;
+    private static javax.swing.JTextField jTextFieldKey;
+    private static javax.swing.JTextField jTextFieldOutput;
+    private static javax.swing.JTextField jTextFieldTweak;
+
     /**
      * Creates new form GUI
      */
@@ -31,11 +44,11 @@ public class Tugas1Kripto extends javax.swing.JFrame {
 
         jFileChooser1 = new javax.swing.JFileChooser();
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldInput = new javax.swing.JTextField();
+        jTextFieldKey = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
+        jTextFieldOutput = new javax.swing.JTextField();
         jTextFieldTweak = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -45,22 +58,22 @@ public class Tugas1Kripto extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("XTS AES");
 
-        jTextField1.setText("Input");
-        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTextFieldInput.setText("Input");
+        jTextFieldInput.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mouseClickedEvent(evt);
             }
         });
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextFieldInputActionPerformed(evt);
             }
         });
 
-        jTextField2.setText("Key");
-        jTextField2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTextFieldKey.setText("Key");
+        jTextFieldKey.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTextField2MouseClicked(evt);
+                jTextFieldKeyMouseClicked(evt);
             }
         });
 
@@ -85,10 +98,10 @@ public class Tugas1Kripto extends javax.swing.JFrame {
             }
         });
 
-        jTextField3.setText("Output");
-        jTextField3.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTextFieldOutput.setText("Output");
+        jTextFieldOutput.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTextField3MouseClicked(evt);
+                jTextFieldOutputMouseClicked(evt);
             }
         });
 
@@ -107,7 +120,7 @@ public class Tugas1Kripto extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -121,25 +134,25 @@ public class Tugas1Kripto extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
+                        .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldKey, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldInput, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldTweak, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextFieldOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(157, 157, 157)
+                        .addGap(120, 120, 120)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton1)
                             .addComponent(jButton2))))));
@@ -149,12 +162,12 @@ public class Tugas1Kripto extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jTextFieldTweak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -166,9 +179,9 @@ public class Tugas1Kripto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextFieldInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextFieldInputActionPerformed
 
     private void mouseClickedEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseClickedEvent
         // TODO add your handling code here:
@@ -176,33 +189,33 @@ public class Tugas1Kripto extends javax.swing.JFrame {
 
         if (res == JFileChooser.APPROVE_OPTION) {
             input = jFileChooser1.getSelectedFile();
-            jTextField1.setText(input.getAbsolutePath());
+            jTextFieldInput.setText(input.getAbsolutePath());
         }
     }//GEN-LAST:event_mouseClickedEvent
 
-    private void jTextField2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MouseClicked
+    private void jTextFieldKeyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldKeyMouseClicked
         int res = jFileChooser1.showOpenDialog(this);
         if (res == JFileChooser.APPROVE_OPTION) {
             key = jFileChooser1.getSelectedFile();
-            jTextField2.setText(key.getAbsolutePath());
+            jTextFieldKey.setText(key.getAbsolutePath());
         }
-    }//GEN-LAST:event_jTextField2MouseClicked
+    }//GEN-LAST:event_jTextFieldKeyMouseClicked
 
-    private void jTextFieldTweakMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MouseClicked
+    private void jTextFieldTweakMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldKeyMouseClicked
         int res = jFileChooser1.showOpenDialog(this);
         if (res == JFileChooser.APPROVE_OPTION) {
             tweak = jFileChooser1.getSelectedFile();
             jTextFieldTweak.setText(tweak.getAbsolutePath());
         }
-    }//GEN-LAST:event_jTextField2MouseClicked
+    }//GEN-LAST:event_jTextFieldKeyMouseClicked
 
-    private void jTextField3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField3MouseClicked
+    private void jTextFieldOutputMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldOutputMouseClicked
         int res = jFileChooser1.showSaveDialog(this);
         if (res == JFileChooser.APPROVE_OPTION) {
             output = jFileChooser1.getSelectedFile();
-            jTextField3.setText(output.getAbsolutePath());
+            jTextFieldOutput.setText(output.getAbsolutePath());
         }
-    }//GEN-LAST:event_jTextField3MouseClicked
+    }//GEN-LAST:event_jTextFieldOutputMouseClicked
 
     private void jButtonMouseClicked(java.awt.event.MouseEvent evt, int mode) {//GEN-FIRST:event_jButton1MouseClicked
 
@@ -268,18 +281,4 @@ public class Tugas1Kripto extends javax.swing.JFrame {
         });
 
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
-    private static javax.swing.JButton jButton1;
-    private static javax.swing.JButton jButton2;
-    private static javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private static javax.swing.JTextField jTextField1;
-    private static javax.swing.JTextField jTextField2;
-    private static javax.swing.JTextField jTextField3;
-    private static javax.swing.JTextField jTextFieldTweak;
-    // End of variables declaration//GEN-END:variables
 }
